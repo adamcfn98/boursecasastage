@@ -1,0 +1,7 @@
+yfinance
+pandas
+sklearn
+tensorflow
+selenium
+nltk
+wordcloud
