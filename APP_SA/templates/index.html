@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Sentiment Analyser for stocks (based on press articles)</title>
+    <style>
+        body {
+            background-color: #1e1e2f; /* Bleu foncé */
+            color: #ffffff; /* Texte en blanc */
+            font-family: 'Arial', sans-serif; /* Police de caractères */
+            text-align: center; /* Centrer le contenu */
+            margin-top: 50px; /* Marge en haut */
+        }
+        h1 {
+            font-size: 28px; /* Taille de la police du titre */
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 20px; /* Marge au-dessus du champ texte */
+            border: 2px solid #ffffff; /* Bordure blanche */
+            background-color: #1e1e2f; /* Fond bleu foncé */
+            color: #ffffff; /* Texte en blanc */
+        }
+        input[type="text"]:focus {
+            outline: none; /* Supprimer l'effet de focus */
+        }
+        button {
+            padding: 10px 20px; /* Espacement interne */
+            margin-top: 20px; /* Marge au-dessus du bouton */
+            background-color: #4CAF50; /* Couleur de fond verte */
+            color: #ffffff; /* Texte en blanc */
+            border: none; /* Pas de bordure */
+            cursor: pointer; /* Curseur pointer */
+        }
+        button:hover {
+            background-color: #45a049; /* Couleur de fond verte plus foncée au survol */
+        }
+        #logo {
+            position: absolute; /* Position absolue */
+            top: 10px; /* Distance du haut */
+            left: 10px; /* Distance de la gauche */
+            width: 200px; /* Largeur du logo */
+        }
+        p {
+            margin-top: 50px; /* Marge au-dessus du paragraphe */
+            font-size: 14px; /* Taille de la police */
+        }
+    </style>
+</head>
+<body>
+    <img src="/static/logo.png" alt="Logo" id="logo">
+    <div style="text-align: center; margin-top: 150px;">
+        <h1>CSE Sentiment Analyser for stocks (based on press articles)</h1>
+        <form action="/analyse" method="post">
+            <input type="text" id="stock_name" name="stock_name" placeholder="Entrer le nom du stock..." required>
+            <br>
+            <button type="submit">Launch Analysis</button>
+        </form>
+        <p style="font-family: 'Arial', sans-serif; font-size: 16px; margin: 20px;">Sentiment Analyser est un outil puissant basé sur une combinaison de deux moteurs NLP, local et importé, pour extraire les sentiments perçus lors de la lecture d'articles de presse. Il cherche ces articles dans des sources fiables préalablement définies, afin de donner une idée de l'impression sur une entreprise cotée à la bourse de Casablanca. En effectuant son analyse, l'outil restitue un graphique de partage de sentiment, un wordcloud donnant une idée des mots les plus fréquemment rencontrés, ainsi qu'une analyse des répercussions potentielles du contenu des articles parcourus sur le cours de l'action en question.
+            <br><br>
+            Voici une liste plus ou moins exhaustive des sources utilisées:
+            <br>
+            Media24, MSN, H24Info, lesEcos.ma, Le Point, Le360, Boursenews, L'Economiste, Telquel, Jeune Afrique, La vie eco.
+        </p>
+    </div>
+    
+    
+</body>
+</html>
+
+

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis for <span id="stockName">Stock</span></title>
+    <!-- Importer la bibliothèque Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #1e1e2f; /* Bleu foncé */
+            color: #ffffff; /* Texte en blanc */
+            font-family: 'Arial', sans-serif; /* Police de caractères */
+        }
+        h1 {
+            font-size: 28px; /* Taille de la police du titre */
+            text-align: center;
+            margin-top: 50px; /* Marge en haut */
+        }
+        h2 {
+            font-size: 20px; /* Taille de la police du sous-titre */
+            font-style: italic; /* Italic */
+            text-align: center;
+            margin-bottom: 50px; /* Marge en bas */
+        }
+        .button {
+            padding: 10px 20px; /* Espacement interne */
+            margin-top: 20px; /* Marge au-dessus du bouton */
+            background-color: #4CAF50; /* Couleur de fond verte */
+            color: #ffffff; /* Texte en blanc */
+            border: none; /* Pas de bordure */
+            cursor: pointer; /* Curseur pointer */
+            display: inline-block; /* Afficher en ligne */
+            text-decoration: none; /* Pas de soulignement */
+            font-size: 16px; /* Taille de la police */
+            border-radius: 5px; /* Bordure arrondie */
+            margin-right: 10px; /* Marge à droite */
+        }
+        .button:hover {
+            background-color: #45a049; /* Couleur de fond verte plus foncée au survol */
+        }
+        .wordcloud-container {
+            text-align: center; /* Centrer le contenu */
+            margin-top: 50px; /* Marge au-dessus du nuage de mots */
+        }
+        .wordcloud-img {
+            max-width: 80%; /* Largeur maximale de l'image */
+            max-height: 80%; /* Hauteur maximale de l'image */
+            margin: 20px auto; /* Centrer l'image et ajouter de la marge en haut et en bas */
+            display: none; /* Cachée par défaut */
+        }
+        #logo {
+            position: absolute; /* Position absolue */
+            top: 10px; /* Distance du haut */
+            left: 10px; /* Distance de la gauche */
+            width: 200px; /* Largeur du logo */
+        }
+    </style>
+</head>
+<body>
+    <!-- Ajouter le logo -->
+    <img id="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+
+    <!-- Définir le nom du stock -->
+    <script>
+        const stockName = "{{ stock_name }}"; // Récupérer le nom du stock de Flask
+        document.getElementById('stockName').innerText = stockName;
+    </script>
+
+    <h1>Sentiment Analysis for <span id="stockName">Stock</span></h1>
+    <h2>Based on press articles analysis sources List</h2>
+
+    <!-- Créer un div pour centrer le diagramme -->
+    <div style="text-align: center;">
+        <!-- Créer un div avec une taille spécifique pour le diagramme -->
+        <div style="width: 300px; height: 300px; display: inline-block;">
+            <!-- Créer un canvas pour le diagramme -->
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Ajouter les boutons pour générer le nuage de mots et l'analyse AI -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="#" class="button" onclick="generateWordCloud()">Generate WordCloud</a>
+        <a href="#" class="button" onclick="launchAIAnalysis()">AI Analysis</a>
+    </div>
+
+    <!-- Section pour afficher le nuage de mots -->
+    <div class="wordcloud-container">
+        <!-- Ajouter l'image du nuage de mots -->
+        <div style="text-align: center;">
+            <img id="wordcloudImg" class="wordcloud-img">
+        </div>
+    </div>
+
+    <script>
+        // Récupérer le contexte du canvas
+        const ctx = document.getElementById('pieChart').getContext('2d');
+
+        // Créer le diagramme en camembert
+        new Chart(ctx, {
+            type:
+            'doughnut', // Utiliser un diagramme en camembert
+            data: {
+                labels: ['Positive', 'Negative', 'Neutral'], // Étiquettes des sections
+                datasets: [{
+                    label: 'Taux',
+                    data: {{ sentiment_scores | safe }}, // Récupérer les scores de sentiment de Flask
+                    backgroundColor: [
+                        'rgba(144, 238, 144, 0.6)', // Vert clair
+                        'rgba(255, 99, 71, 0.6)', // Rouge clair
+                        'rgba(173, 216, 230, 0.6)' // Bleu clair
+                    ],
+                    borderWidth: 0 // Pas de bordure
+                }]
+            },
+            options: {
+                responsive: false, // Désactiver la mise à l'échelle automatique
+                cutoutPercentage: 70, // Pourcentage d'évidement (pour obtenir un disque plein)
+                legend: {
+                    display: true,
+                    position: 'bottom' // Positionner la légende en bas
+                }
+            }
+        });
+
+        // Fonction pour générer le nuage de mots
+        function generateWordCloud() {
+            fetch('/generate_wordcloud', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ titles: {{ titles | tojson }} })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const wordcloudImg = document.getElementById('wordcloudImg');
+                wordcloudImg.src = "data:image/png;base64," + data.img_base64;
+                wordcloudImg.style.display = 'block'; // Afficher le nuage de mots
+            });
+        }
+
+        // Fonction pour lancer l'analyse AI
+        function launchAIAnalysis() {
+            // Mettez ici le code pour lancer l'analyse AI
+            // Cette fonction sera exécutée lors du clic sur le bouton "AI Analysis"
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Cloud</title>
+    <style>
+        body {
+            background-color: #1e1e2f; /* Bleu foncé */
+            color: #ffffff; /* Texte en blanc */
+            font-family: 'Arial', sans-serif; /* Police de caractères */
+            text-align: center; /* Centrer le contenu */
+            margin-top: 50px; /* Marge en haut */
+        }
+        h1 {
+            font-size: 28px; /* Taille de la police du titre */
+        }
+        img {
+            margin-top: 20px; /* Marge au-dessus de l'image */
+            border: 2px solid #ffffff; /* Bordure blanche */
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Cloud</h1>
+    <!-- Afficher le nuage de mots généré -->
+    <img src="data:image/png;base64,{{ img_base64 }}" alt="Word Cloud">
+</body>
+</html>
